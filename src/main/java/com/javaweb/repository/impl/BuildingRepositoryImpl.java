@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -56,12 +57,14 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		String rentAreaFrom =(String)params.get("areaFrom");
 		String rentAreaTo =(String)params.get("areaTo");
 		if(StringUtil.checkString(rentAreaFrom) ||StringUtil.checkString(rentAreaTo)){
+			where.append(" AND EXISTS (SELECT * FROM rentarea ra WHERE b.id =ra.buildingid ");
 			if(StringUtil.checkString(rentAreaFrom)) {
 				where.append(" AND ra.value >="+rentAreaFrom+" ");
 			}
 			if(StringUtil.checkString(rentAreaTo)) {
 				where.append(" AND ra.value <="+rentAreaTo+" ");
 			}
+			where.append(") ");
 		}
 		String rentPriceFrom =(String)params.get("rentPriceFrom");
 		String rentPriceTo =(String)params.get("rentPriceTo");
@@ -73,12 +76,13 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 				where.append(" AND b.rentprice <="+rentPriceTo+" ");
 			}
 		}
+		
+		//code cux dungf java 7 h dungf java 8
 		if(typeCode!=null && typeCode.size()!=0) {
-			List<String> code =new ArrayList<String>();
-			for(String item:typeCode) {
-				code.add(" '"+item+"' ");
-			}
-			where.append(" AND rt.code IN ("+String.join(",", code)+") ");
+			where.append(" AND(");
+			String query= typeCode.stream().map(it->"rt.code Like"+"'%"+it+"%' ").collect(Collectors.joining(" OR "));
+			where.append(query);
+			where.append(" ) ");
 		}
 	}
 	@Override
