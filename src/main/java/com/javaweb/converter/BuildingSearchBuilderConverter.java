@@ -5,10 +5,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.type.MapType;
 import com.javaweb.Utils.MapUtil;
 import com.javaweb.builder.BuildingSearchBuilder;
 @Component
-public class BuildingSearchBuilderConverter {
+public class BuildingSearchBuilderConverter { // Dùng để khi client tìm kiếm theo các key mà họ nhập 
 	public BuildingSearchBuilder toBuildingSeacrhBuilder(Map<String,Object> params,List<String> typeCode) {
 		BuildingSearchBuilder buildingSearchBuilder= new BuildingSearchBuilder.Builder() 
 																			  .setName(MapUtil.getObject(params, "name", String.class))
@@ -18,6 +19,7 @@ public class BuildingSearchBuilderConverter {
 																			  .setDistrictId(MapUtil.getObject(params, "districtId", Long.class))
 																			  .setNumberOfBasement(MapUtil.getObject(params, "numberOfBasement",Integer.class ))
 																			  .setTypeCode(typeCode)
+																			  .setEmptyArea(MapUtil.getObject(params, "emptyArea", String.class))
 																			  .setManagerName(MapUtil.getObject(params, "managerName", String.class))
 																			  .setManagerPhoneNumber(MapUtil.getObject(params, "managerPhoneNumber", String.class))
 																			  .setRentPriceFrom(MapUtil.getObject(params,"rentPriceFrom",Long.class))

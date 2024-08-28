@@ -3,7 +3,7 @@ package com.javaweb.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingSearchBuilder {
+public class BuildingSearchBuilder { //dùng để lưu trữ thông tin client đưa ra thành 1 đối tượng để tìm kiếm
 	private String name;
 	private Long floorArea;
 	private String ward;
@@ -18,6 +18,7 @@ public class BuildingSearchBuilder {
 	private Long areaTo;
 	private Long areaFrom;
 	private Long staffId;
+	private String emptyArea;
 	
 	
 	public BuildingSearchBuilder(Builder builder) {
@@ -35,6 +36,10 @@ public class BuildingSearchBuilder {
 		this.areaTo = builder.areaTo;
 		this.areaFrom = builder.areaFrom;
 		this.staffId = builder.staffId;
+		this.emptyArea=builder.emptyArea;
+	}
+	public String getEmptyArea() {
+		return emptyArea;
 	}
 	public String getName() {
 		return name;
@@ -93,7 +98,13 @@ public class BuildingSearchBuilder {
 		private Long areaTo;
 		private Long areaFrom;
 		private Long staffId;
+		private String emptyArea;
 		
+		
+		public Builder setEmptyArea(String emptyArea) {
+			this.emptyArea=emptyArea;
+			return this;
+		}
 		public Builder setStreet(String street) {
 			this.street=street;
 			return this;

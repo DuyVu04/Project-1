@@ -1,6 +1,6 @@
 package com.javaweb.model;
 
-public class BuildingDTO {
+public class BuildingDTO {//Đối tượng sau khi xử lí xong dưới DB sẽ được trả ra cho client theo dạng của BuildingDTO
 	private String name;
 	private String address;
 	private Long numberOfBasement;

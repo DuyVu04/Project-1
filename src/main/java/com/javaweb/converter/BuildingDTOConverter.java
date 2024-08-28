@@ -15,23 +15,21 @@ import com.javaweb.repository.entity.DistrictEntity;
 import com.javaweb.repository.entity.RentAreaEntity;
 
 @Component//giup danhs daus class nay la 1 cai Bean laf 1 class ko co ham khoi tao
-public class BuildingDTOConverter {
-	@Autowired
-	private DistrictRepository districtRepository;
+public class BuildingDTOConverter {//Dùng model mapper để lấy dữ liệu của các tòa nhà sau khi tìm được dưới DB gán vào đối tượng khởi tạo 
 	
-	@Autowired
-	private RentAreaRepository rentAreaRepository;
 	
 	@Autowired 
 	private ModelMapper modelMapper;
 	
 	public BuildingDTO toBuildingDTO(BuildingEntity item) {
 		BuildingDTO building = modelMapper.map(item, BuildingDTO.class) ;
-		DistrictEntity districtEntity= districtRepository.findNameById(item.getDistrictid());
-		building.setAddress(item.getStreet()+" "+ item.getWard()+" "+districtEntity.getName());
-		List<RentAreaEntity> rentAreas =rentAreaRepository.getValueByBuildingId(item.getId());
+		building.setAddress(item.getStreet()+" "+ item.getWard()+" "+item.getDistrict().getName());
+		List<RentAreaEntity> rentAreas =item.getRentarea();
 		String areaResult =rentAreas.stream().map(it->it.getValue().toString()).collect(Collectors.joining(" , "));
 		building.setRentArea(areaResult);
+		List<RentAreaEntity> emptyArea = item.getRentarea();//tai vi dien tich con trong la dien tich thue ma nguoi ta chua thue
+		String emptyAreaResult =emptyArea.stream().map(it->it.getValue().toString()).collect(Collectors.joining(" , "));
+		building.setEmptyArea(emptyAreaResult);
 		return building;
 	}
 }
