@@ -19,6 +19,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
@@ -31,9 +32,7 @@ import com.javaweb.model.BuildingDTO;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.entity.BuildingEntity;
 @Repository
-
-
-
+//@Primary
 public class JDBCBuildingRepositoryImpl implements BuildingRepository {
 	
 	@PersistenceContext 
@@ -124,7 +123,7 @@ public class JDBCBuildingRepositoryImpl implements BuildingRepository {
 		querySpecial(buildingSearchBuilder, where);
 		sql.append(where);
 		sql.append(" GROUP BY b.id ");
-		Query query =entityManager.createNamedQuery(sql.toString(), BuildingEntity.class);
+		Query query =entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
 		
 		return query.getResultList();
 	}
